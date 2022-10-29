@@ -9,12 +9,12 @@ public class CalculationService {
     private final Double G = 9.80665;
 
     public CalculationData calculateData(
-            CalculationRequest input
+            CalculationRequest calculationRequest
     ) throws IllegalArgumentException {
-        if (input.getAngle() == null || input.getAngle() <= 0)
+        if (calculationRequest.getAngle() == null || calculationRequest.getAngle() <= 0)
             throw new IllegalArgumentException("Illegal angle: value must be greater than 0");
 
-        if (input.getVelocity() == null || input.getVelocity() <= 0)
+        if (calculationRequest.getVelocity() == null || calculationRequest.getVelocity() <= 0)
             throw new IllegalArgumentException("Illegal velocity: value must be greater than 0");
 
         CalculationData data = CalculationData.builder()
@@ -24,14 +24,14 @@ public class CalculationService {
                 .build();
 
         double x=0.0, y=0.0, time=0.0;
-        double stopTime = 2 * input.getVelocity() * Math.sin(Math.toRadians(input.getAngle())) / G;
+        double stopTime = 2 * calculationRequest.getVelocity() * Math.sin(Math.toRadians(calculationRequest.getAngle())) / G;
 
         while(time < stopTime) {
             if (y < 0)
                 break;
 
-            x = this.calcX(time, input.getVelocity(), input.getAngle());
-            y = this.calcY(time, input.getVelocity(), input.getAngle());
+            x = this.calcX(time, calculationRequest.getVelocity(), calculationRequest.getAngle());
+            y = this.calcY(time, calculationRequest.getVelocity(), calculationRequest.getAngle());
 
             data.getXArray().add(x);
             data.getYArray().add(y);
@@ -40,9 +40,9 @@ public class CalculationService {
         }
 
         time -= 0.1;
-        time = - ((0.0 - input.getVelocity() * Math.sin(Math.toRadians(input.getAngle()))) / (G/2));
+        time = - ((0.0 - calculationRequest.getVelocity() * Math.sin(Math.toRadians(calculationRequest.getAngle()))) / (G/2));
 
-        data.getXArray().add(calcX(time, input.getVelocity(), input.getAngle()));
+        data.getXArray().add(calcX(time, calculationRequest.getVelocity(), calculationRequest.getAngle()));
         data.getYArray().add(0.0);
         data.getTArray().add(time);
 
