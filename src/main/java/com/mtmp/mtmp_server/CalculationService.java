@@ -18,9 +18,9 @@ public class CalculationService {
             throw new IllegalArgumentException("Illegal velocity: value must be greater than 0");
 
         CalculationData data = CalculationData.builder()
-                .time(new ArrayList<>())
-                .x(new ArrayList<>())
-                .y(new ArrayList<>())
+                .tArray(new ArrayList<>())
+                .xArray(new ArrayList<>())
+                .yArray(new ArrayList<>())
                 .build();
 
         double x=0.0, y=0.0, time=0.0;
@@ -33,18 +33,18 @@ public class CalculationService {
             x = this.calcX(time, input.getVelocity(), input.getAngle());
             y = this.calcY(time, input.getVelocity(), input.getAngle());
 
-            data.getX().add(x);
-            data.getY().add(y);
-            data.getTime().add(time);
+            data.getXArray().add(x);
+            data.getYArray().add(y);
+            data.getTArray().add(time);
             time += 0.1;
         }
 
         time -= 0.1;
         time = - ((0.0 - input.getVelocity() * Math.sin(Math.toRadians(input.getAngle()))) / (G/2));
 
-        data.getX().add(calcX(time, input.getVelocity(), input.getAngle()));
-        data.getY().add(0.0);
-        data.getTime().add(time);
+        data.getXArray().add(calcX(time, input.getVelocity(), input.getAngle()));
+        data.getYArray().add(0.0);
+        data.getTArray().add(time);
 
         return data;
     }

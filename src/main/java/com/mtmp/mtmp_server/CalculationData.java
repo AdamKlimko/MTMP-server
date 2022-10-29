@@ -10,8 +10,8 @@ import java.util.List;
 @Setter
 @Builder
 public class CalculationData {
-    List<Double> x;
-    List<Double> y;
-    List<Double> time;
+    List<Double> xArray;
+    List<Double> yArray;
+    List<Double> tArray;
 }
 
